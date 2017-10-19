@@ -52,22 +52,26 @@ def find_urls(s):
 ## http://www.michigandaily.com/section/opinion
 
 def grab_headlines():
-    pass
-    # ctx = ssl.create_default_context()
-    # ctx.check_hostname = False
-    # ctx.verify_mode = ssl.CERT_NONE
-    #
-    # url = input('Enter - ')
-    # html = urlopen(url, context=ctx).read()
-    #
-    # soup = BeautifulSoup(html, "html.parser")
+    url = "http://www.michigandaily.com/section/opinion"
+    #access info from url
+    read = requests.get(url)
+    #create soup
+    soup = BeautifulSoup(read.content, "html.parser")
+    #find ordered list of all headlines and their hyperlinks
+    popular = soup.find(class_ = "view view-most-read view-id-most_read view-display-id-panel_pane_1 view-dom-id-99658157999dd0ac5aa62c2b284dd266")
+    #get all of the hyperlinks in the ordered list
+    articles = popular.find_all('a')
+    #add the titles to headlines list
+    headlines = []
+    for link in articles:
+        headlines.append(link.text)
 
-    # headlines = []
-    # articles = soup.find_all('span')
-    # for num in span:
-    #     values.append(int(num.string))
-    # print ("Count: " + str(len(values)))
-    # print("Sum: " + str(sum(values)))
+    return headlines
+
+
+
+
+
 
 
 ## PART 3 (a) Define a function called get_umsi_data.  It should create a dictionary
@@ -82,8 +86,9 @@ def grab_headlines():
 ## requests.get(base_url, headers={'User-Agent': 'SI_CLASS'})
 
 def get_umsi_data():
-    pass
+
     #Your code here
+    
 
 ## PART 3 (b) Define a function called num_students.
 ## INPUT: The dictionary from get_umsi_data().
@@ -119,7 +124,7 @@ def main():
 
 
     print('\n\nTask 2: Michigan Daily')
-    total += test(grab_headlines(),["MSW students protest staff member's email based on religious bias", 'Teen arrested at Blake Transit Center', "Racist flyers calling to 'Make America White Again' found near Stockwell", "Protesters take to LSA SG panel on C.C. Little's renaming", 'Michigan football player Nate Johnson arrested for domestic violence'],50)
+    total += test(grab_headlines(),['Students attempt to shut down speech by controversial social scientist Charles Murray ', 'Orion Sang: Michigan should see what it has with Peters', "Protesters grapple with Charles Murray's appearance on campus", "'Lil Pump' delivers hype despite a lack of substance", "'Jane the Virgin' becomes Adam the Virgo in season 4 shift"] ,50)
 
 
     print('\n\nTask 3: UMSI Directory')
